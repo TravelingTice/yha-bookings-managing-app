@@ -1,3 +1,40 @@
 @charset "UTF-8";
 
 @import 'vendor/normalize';
+
+body {
+    text-align: center;
+}
+
+.password-input {
+    margin-top: calc(30vh - 20px);
+}
+
+.error {
+    color: red;
+}
+
+.active {
+    color: black;
+}
+
+nav a {
+    display: block;
+    color: red;
+    text-decoration: none;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid black;
+}
+
+nav a:hover {
+    color: blue;
+}
+
+.nav-home-btn {
+    color: black;
+}
+
+nav {
+    margin: 10px;
+}
