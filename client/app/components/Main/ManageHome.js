@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PeopleInfo from './SmallComps/GuestsInfo';
+import GuestsInfo from './SmallComps/GuestsInfo';
 import { getHr } from '../../utils/date';
 
 function ManageHome(props) {
@@ -10,13 +10,13 @@ function ManageHome(props) {
         {curHr < 12 && (
             <h2>Good morning Jenn!</h2>
         )}
-        {curHr < 18 && curHr > 12 && (
+        {curHr < 18 && curHr >= 12 && (
             <h2>Good afternoon Jenn!</h2>
         )}
-        {curHr > 18 && (
+        {curHr >= 18 && (
             <h2>Good evening Jenn!</h2>
         )}
-        <PeopleInfo/>
+        <GuestsInfo/>
         </>
     )
 }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import escapeRegExp from 'escape-string-regexp';
+import sortBy from 'sort-by';
 
 class SearchGuest extends Component {
     constructor(props) {
@@ -7,26 +9,15 @@ class SearchGuest extends Component {
         this.state = {
             query: '',
             guests: [],
-            showingGuests: [],
             errMsg: ''
         }
         this.updateQuery = this.updateQuery.bind(this);
     }
 
     updateQuery(query) {
-        const { showingGuests, guests } = this.state;
-        if (showingGuests && query == '') {
-            this.setState({
-                query,
-                showingGuests: []
-            });
-        }
-        if (query) {
-            this.setState({
-                query,
-                showingGuests: guests
-            });
-        }
+        this.setState({
+            query
+        });
     }    
 
     componentDidMount() {
@@ -46,13 +37,24 @@ class SearchGuest extends Component {
     }
 
     render() {
-        const { query, errMsg, showingGuests } = this.state;
+        const { query, errMsg, guests } = this.state;
+        let showingGuests;
+        if (query) {
+            const match = new RegExp(escapeRegExp(query), 'i');
+            showingGuests = guests.filter(guest => match.test(guest.firstName))
+        } else {
+            showingGuests = [];
+        }
+
+        showingGuests.sort(sortBy('firstName'));
+
         return (
             <>
                 <input 
                 type="text" 
                 value={query} 
-                onChange={e =>this.updateQuery(e.target.value)}/>
+                onChange={e =>this.updateQuery(e.target.value)}
+                placeholder="Search guests"/>
                 {errMsg && (
                     <p>{errMsg}</p>
                 )}
