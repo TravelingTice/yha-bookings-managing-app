@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import SearchGuest from './SmallComps/SearchGuest';
 
 function PersonIsPaying (props) {
     return (
-        <p>Person is paying</p>
+        <>
+            <SearchGuest/>
+        </>
     )
 }
 

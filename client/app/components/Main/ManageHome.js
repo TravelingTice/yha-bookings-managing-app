@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import PeopleInfo from './smallComps/PeopleInfo'
+import PeopleInfo from './SmallComps/GuestsInfo';
+import { getHr } from '../../utils/date';
 
 function ManageHome(props) {
     // get hour of the day
-    const today = new Date();
-    const curHr = today.getHours();
-    console.log(curHr);
+    const curHr = getHr();
     return (
         <>
         {curHr < 12 && (

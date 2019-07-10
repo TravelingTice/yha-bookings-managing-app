@@ -1,9 +1,177 @@
 import React, { Component } from 'react';
 
-function NewCheckIn (props) {
-    return (
-        <p>New Check In</p>
-    )
+import Select from './SmallComps/Select';
+
+class NewCheckIn extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            errMsg: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            roomType: '',
+            rentDue: '1',
+            comments: ''
+        }
+
+        this.updateFirstName = this.updateFirstName.bind(this);
+        this.updateLastName = this.updateLastName.bind(this);
+        this.updateEmail = this.updateEmail.bind(this);
+        this.updatePhone = this.updatePhone.bind(this);
+        this.updateRoomType = this.updateRoomType.bind(this);
+        this.updateRentDue = this.updateRentDue.bind(this);
+        this.updateComments = this.updateComments.bind(this);
+    }
+
+    updateFirstName(firstName) {
+        this.setState({
+            firstName
+        });
+    }
+    updateLastName(lastName) {
+        this.setState({
+            lastName
+        });
+    }
+    updateEmail(email) {
+        this.setState({
+            email
+        });
+    }
+    updatePhone(phone) {
+        this.setState({
+            phone
+        });
+    }
+    updateRoomType(roomType) {
+        this.setState({
+            roomType
+        });
+    }
+    updateRentDue(rentDue) {
+        this.setState({
+            rentDue
+        });
+    }
+    updateComments(comments) {
+        this.setState({
+            comments
+        });
+    }
+    submit(e) {
+        e.preventDefault();
+        const {
+            firstName,
+            lastName,
+            email,
+            phone,
+            roomType,
+            rentDue,
+            comments
+        } = this.state;
+        fetch('api/manage/checkinguest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                phone,
+                roomType,
+                rentDue,
+                comments
+            })
+        })
+        .then(res => res.json())
+        .then(json => {
+            if (!json.success) {
+                this.setState({
+                    errMsg: json.message
+                });
+            } else {
+                this.setState({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    phone: '',
+                    roomType: '',
+                    rentDue: '',
+                    comments: '',
+                    errMsg: json.message
+                });
+            }
+        });
+    }
+    render() {
+        const {
+            firstName,
+            lastName,
+            email,
+            phone,
+            roomType,
+            rentDue,
+            comments,
+            errMsg
+        } = this.state;
+        return (
+            <>
+            <form>
+                <input 
+                type="text" 
+                value={firstName} 
+                placeholder="First name" 
+                onChange={e => this.updateFirstName(e.target.value)}
+                required/>
+                <br/>
+                <input 
+                type="text" 
+                value={lastName} 
+                placeholder="Last name"
+                onChange={e => this.updateLastName(e.target.value)}
+                required/>
+                <br/>
+                <input 
+                type="text" 
+                value={email} 
+                placeholder="Email"
+                onChange={e => this.updateEmail(e.target.value)}/>
+                <br/>
+                <input 
+                type="text"
+                value={phone} 
+                placeholder="Phone nr"
+                onChange={e => this.updatePhone(e.target.value)}/>
+                <br/>
+                <input 
+                type="text" 
+                value={roomType} 
+                placeholder="Room type"
+                onChange={e => this.updateRoomType(e.target.value)}/>
+                <br/>
+                <span>Rent is due in </span>
+                <Select
+                n={31} 
+                onChange={e => this.updateRentDue(e.target.value)}
+                value={rentDue}/>
+                <span> days</span>
+                <br/>
+                <textarea 
+                value={comments} placeholder="Comments"
+                onChange={e => this.updateComments(e.target.value)}></textarea>
+                <br/>
+                <button onClick={e => this.submit(e)}>Submit</button>
+            </form>
+            {errMsg && (
+                <p>{errMsg}</p>
+            )}
+            </>
+        )
+    }
 }
 
 export default NewCheckIn;
