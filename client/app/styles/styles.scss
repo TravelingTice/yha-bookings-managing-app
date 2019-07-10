@@ -14,7 +14,7 @@ body {
     color: red;
 }
 
-.active {
+header .active {
     color: black;
 }
 
@@ -37,4 +37,26 @@ nav a:hover {
 
 nav {
     margin: 10px;
+}
+
+.search-guest-list {
+  list-style: none;
+  width: 200px;
+  margin: 0 calc(50vw - 90px);
+  padding: 0;
+}
+
+.search-guest-list .active {
+  background: #bae8e8;
+}
+
+.search-guest-list li {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.search-guest-list li:hover {
+  background: #dce8ba;
 }

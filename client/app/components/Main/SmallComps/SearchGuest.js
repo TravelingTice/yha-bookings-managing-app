@@ -59,9 +59,11 @@ class SearchGuest extends Component {
                     <p>{errMsg}</p>
                 )}
                 {showingGuests && (
-                    <ul>
+                    <ul className="search-guest-list">
                         {showingGuests.map(guest => (
-                            <li>{guest.firstName}</li>
+                            <li
+                            className={guest.firstName === this.props.selectedGuest.firstName ? 'active' : ''}
+                            onClick={() => this.props.onSelect(guest)}>{`${guest.firstName} ${guest.lastName}`}</li>
                         ))}
                     </ul>
                 )}
