@@ -18,8 +18,8 @@ const GuestSchema = new mongoose.Schema({
     default: ''
   },
   rentDue: {
-    type: String,
-    default: ''
+    type: Number,
+    default: 0
   },
   roomType: {
     type: String,
@@ -32,6 +32,10 @@ const GuestSchema = new mongoose.Schema({
   comments: {
     type: String,
     default: ''
+  },
+  isInBush: {
+    type: Boolean,
+    default: false
   },
   checkedOut: {
     type: Boolean,

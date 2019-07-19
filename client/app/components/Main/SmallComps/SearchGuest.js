@@ -67,7 +67,6 @@ class SearchGuest extends Component {
                         ))}
                     </ul>
                 )}
-                
             </>
         )
     }

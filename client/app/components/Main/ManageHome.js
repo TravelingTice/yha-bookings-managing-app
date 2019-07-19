@@ -16,6 +16,7 @@ function ManageHome(props) {
         {curHr >= 18 && (
             <h2>Good evening Jenn!</h2>
         )}
+        <p>These people have their rent due:</p>
         <GuestsInfo/>
         </>
     )

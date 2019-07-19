@@ -83,7 +83,7 @@ class NewCheckIn extends Component {
                 email,
                 phone,
                 roomType,
-                rentDue,
+                rentDue: parseInt(rentDue),
                 comments
             })
         })
@@ -156,7 +156,7 @@ class NewCheckIn extends Component {
                 <span>Rent is due in </span>
                 <Select
                 n={31} 
-                onChange={e => this.updateRentDue(e.target.value)}
+                onChange={e => this.updateRentDue(e)}
                 value={rentDue}/>
                 <span> days</span>
                 <br/>

@@ -28,7 +28,7 @@ class PersonIsPaying extends Component {
 
     onSubmit(e) {
       e.preventDefault();
-      console.log('submit');
+      // add the amnt of days to the person's day balance
     }
 
     render() {
@@ -41,6 +41,7 @@ class PersonIsPaying extends Component {
               <span>Is paying for </span>
               <Select 
               n={30}
+              value={this.state.daysPaidFor}
               onChange={this.onSelectDays}/>
               <span> days</span>
             </div>

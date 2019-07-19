@@ -98,4 +98,34 @@ module.exports = (app) => {
       })
     });
   });
+
+  app.post('/api/manage/updateRent', (req, res) => {
+    const { body } = req;
+    const { daysPassed } = body;
+    Guest.find({
+      isInBush: false
+    }, (err, guests) => {
+      if (err) return res.send({
+        success: false,
+        message: 'Server error' + err
+      })
+      // iterate through array, subtract the daysPassed number, and save the new guest
+      guests.forEach(guest => {
+        guest.rentDue = guest.rentDue - daysPassed;
+        // update in Database
+        Guest.updateOne({
+          firstName: guest.firstName
+        }, { $set: { rentDue: guest.rentDue } }, (err, guest) => {
+          if (err) return res.send({
+            success: false,
+            message: 'Something went wrong' + err
+          })
+        })
+      });
+      return res.send({
+        success: true,
+        message: 'rent updated'
+      })
+    })
+  })
 };

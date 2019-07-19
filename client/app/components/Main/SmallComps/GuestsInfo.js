@@ -22,13 +22,14 @@ class GuestsInfo extends Component {
     render() {
       const { guests } = this.state;
         return (
-            <div>
+            <table>
               {guests.map((guest) => (
-                <div>
-                  <p>{guest.firstName}</p>
-                </div>
+                <tr>
+                  <td>{guest.firstName + ' ' + guest.lastName}</td>
+                  <td>{guest.rentDue === 0 ? 'TODAY!' : guest.rentDue === 1 ? 'Tomorrow!' : 'In ' + guest.rentDue + ' days'}</td>
+                </tr>
               ))}
-            </div>
+            </table>
         )
     }
 }
