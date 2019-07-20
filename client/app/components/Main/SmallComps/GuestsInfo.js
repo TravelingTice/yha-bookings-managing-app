@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import sortBy from 'sort-by';
+import { getFromStorage } from '../../../utils/storage';
+import { updateRentDue } from '../../../utils/updateRentDue';
 
 class GuestsInfo extends Component {
     constructor(props) {
@@ -13,7 +16,6 @@ class GuestsInfo extends Component {
         fetch('api/manage/getguestlist')
         .then(res => res.json())
         .then(json => {
-          // TODO: sort the list on date of rent due
             this.setState({
                 guests: json.guests
             });
@@ -21,15 +23,40 @@ class GuestsInfo extends Component {
     }
     render() {
       const { guests } = this.state;
+      const daysSinceLastLogin = getFromStorage('the_second_app').daysSinceLastLogin;
+      if (daysSinceLastLogin !== 0) {
+        updateRentDue();
+      }
+      // sort guest array on rent due for display
+      guests.sort(sortBy('rentDue'));
+
         return (
+          <>
+            <p>These people have their rent due: </p>
             <table>
-              {guests.map((guest) => (
-                <tr>
+              <tbody>
+              {guests.map(guest => (
+                <>
+                {!guest.isInBush && (
+                  <tr>
                   <td>{guest.firstName + ' ' + guest.lastName}</td>
                   <td>{guest.rentDue === 0 ? 'TODAY!' : guest.rentDue === 1 ? 'Tomorrow!' : 'In ' + guest.rentDue + ' days'}</td>
                 </tr>
+                )}
+                </>
               ))}
+              </tbody>
             </table>
+            <br/>
+            <p>These are in the bush:</p>
+            {guests.map(guest => (
+              <>
+              {guest.isInBush && (
+                <span>{guest.firstName + ' ' + guest.lastName + ', '}</span>
+              )}
+              </>
+            ))}
+            </>
         )
     }
 }

@@ -8,7 +8,8 @@ class PersonIsPaying extends Component {
 
         this.state = {
           selectedGuest: {},
-          daysPaidFor: 1
+          daysPaidFor: 1,
+          msg: ''
         }
         this.onSelect = this.onSelect.bind(this);
         this.onSelectDays = this.onSelectDays.bind(this);
@@ -28,7 +29,31 @@ class PersonIsPaying extends Component {
 
     onSubmit(e) {
       e.preventDefault();
+      const { selectedGuest, daysPaidFor } = this.state;
       // add the amnt of days to the person's day balance
+      fetch('/api/manage/updateRentOfPerson', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: selectedGuest.firstName,
+          lastName: selectedGuest.lastName,
+          days: parseInt(daysPaidFor)
+        })
+      })
+      .then(resp => resp.json())
+      .then(json => {
+        if (!json.success) {
+          console.log(json.message);
+        } else {
+          this.setState({
+            selectedGuest: {},
+            daysPaidFor: 1,
+            msg: json.message
+          });
+        }
+      });
     }
 
     render() {
@@ -37,8 +62,8 @@ class PersonIsPaying extends Component {
             <SearchGuest 
             onSelect={this.onSelect}
             selectedGuest={this.state.selectedGuest}/>
-            <div>
-              <span>Is paying for </span>
+            <div style={{margin: '10px 0'}}>
+              <span>is paying for </span>
               <Select 
               n={30}
               value={this.state.daysPaidFor}
@@ -46,6 +71,9 @@ class PersonIsPaying extends Component {
               <span> days</span>
             </div>
             <div>
+              {this.state.msg && (
+                <p>{this.state.msg}</p>
+              )}
               <button onClick={e => this.onSubmit(e)}>Submit</button>
             </div>
             </>

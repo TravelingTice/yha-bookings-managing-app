@@ -6,19 +6,32 @@ import NewCheckIn from '../NewCheckIn';
 import CheckOut from '../CheckOut';
 import LookUpPerson from '../LookUpPerson';
 import SingleRoomList from '../SingleRoomList';
+import TheBush from '../TheBush';
 
-function ManageIndex (props) {
+import { updateRentDue } from '../../../utils/updateRentDue';
+
+class ManageIndex extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount() {
+    updateRentDue();
+  }
+
+  render() {
     return (
-    <Switch>
+      <Switch>
         <Route exact path='/' component={ManageHome}/>
         <Route exact path='/person-is-paying' component={PersonIsPaying}/>
         <Route exact path='/new-check-in' component={NewCheckIn}/>
         <Route exact path='/check-out' component={CheckOut}/>
+        <Route exact path='/the-bush' component={TheBush}/>
         <Route exact path='/look-up' component={LookUpPerson}/>
         <Route exact path='/single-room-list' component={SingleRoomList}/>
     </Switch>
-
     )
+  }
 }
 
 export default ManageIndex;
