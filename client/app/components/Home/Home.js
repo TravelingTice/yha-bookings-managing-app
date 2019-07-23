@@ -15,9 +15,9 @@ class Home extends Component {
       errorMsg: '',
       page: ''
     };
-    this.updateDaysSinceLastLogin = this.updateDaysSinceLastLogin.bind(this);
     this.updatePassword = this.updatePassword.bind(this);
     this.submit = this.submit.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   componentDidMount() {
@@ -55,12 +55,6 @@ class Home extends Component {
 
   updatePassword(password) {
     this.setState({ password });
-  }
-
-  updateDaysSinceLastLogin(days) {
-    this.setState({
-      daysSinceLastLogin: days
-    });
   }
 
   submit(e) {

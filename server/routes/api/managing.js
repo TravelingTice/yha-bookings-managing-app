@@ -1,6 +1,7 @@
 // All actions considered managing guests are in here
 
 const Guest = require('../../models/Guest');
+const SingleRoomGuest = require('../../models/SingleRoomGuest');
 
 module.exports = (app) => {
   app.post('/api/manage/checkinguest', (req, res) => {
@@ -77,26 +78,42 @@ module.exports = (app) => {
         });
         return res.send({
           success: true,
-          message: 'Guest is checked in!'
+          message: firstName + ' is checked in!'
         });
       });
     });
   });
 
   app.get('/api/manage/getguestlist', (req, res) => {
-    Guest.find({
-      checkedOut: false
-    }, (err, guests) => {
-      if (err) return res.send({
-        success: false,
-        message: 'Server error' + err
-      })
-      return res.send({
-        success: true,
-        message: 'Guests found',
-        guests
-      })
-    });
+    const { query } = req;
+    const { includeAll } = query;
+    if (includeAll === 'true') {
+      Guest.find({}, (err, guests) => {
+        if (err) return res.send({
+          success: false,
+          message: 'Server error' + err
+        })
+        return res.send({
+          success: true,
+          message: 'Guests found',
+          guests
+        })
+      });
+    } else {
+      Guest.find({
+        checkedOut: false
+      }, (err, guests) => {
+        if (err) return res.send({
+          success: false,
+          message: 'Server error' + err
+        })
+        return res.send({
+          success: true,
+          message: 'Guests found',
+          guests
+        })
+      });
+    }
   });
 
   app.post('/api/manage/updateRent', (req, res) => {
@@ -166,6 +183,52 @@ module.exports = (app) => {
     });
   });
 
+  app.post('/api/manage/updateComment', (req, res) => {
+    const { body } = req;
+    const { firstName, lastName, comments } = body;
+
+    console.log(firstName, lastName, comments);
+
+    Guest.updateOne({
+      firstName,
+      lastName
+    }, {
+      $set: { comments }
+    }, (err, doc) => {
+      if (err) return res.send({
+        success: false,
+        message: 'Server error: ' + err
+      });
+      return res.send({
+        success: true,
+        message: 'Comment of ' + firstName + ' updated!'
+      });
+    });
+  });
+
+  app.post('/api/manage/updateRoomType', (req, res) => {
+    const { body } = req;
+    const { firstName, lastName, roomType } = body;
+
+    console.log(firstName, lastName, roomType);
+
+    Guest.updateOne({
+      firstName,
+      lastName
+    }, {
+      $set: { roomType }
+    }, (err, doc) => {
+      if (err) return res.send({
+        success: false,
+        message: 'Server error: ' + err
+      });
+      return res.send({
+        success: true,
+        message: 'Room type of ' + firstName + ' updated!'
+      });
+    });
+  });
+
   app.get('/api/manage/goesToBush', (req, res) => {
     const { query } = req;
     const { firstName, lastName } = query;
@@ -202,14 +265,14 @@ module.exports = (app) => {
     });
   });
 
-  app.get('/api/manage/checkout', (req, res) => {
-    const { query } = req;
-    const { firstName, lastName } = query;
+  app.post('/api/manage/checkout', (req, res) => {
+    const { body } = req;
+    const { firstName, lastName, checkOutDate } = body;
 
     Guest.updateOne({
       firstName,
       lastName
-    }, { $set: { checkedOut: true }}, (err, guest) => {
+    }, { $set: { checkedOut: true, checkOutDate }}, (err, guest) => {
       if (err) return res.send({
         success: false,
         message: 'Server error' + err
@@ -217,6 +280,83 @@ module.exports = (app) => {
       return res.send({
         success: true,
         message: firstName + ' is checked out!'
+      });
+    });
+  });
+
+  app.get('/api/manage/singleRoomList', (req, res) => {
+    SingleRoomGuest.find({
+      isDeleted: false
+    }, (err, guests) => {
+      if (err) return res.send({
+        success: false,
+        message: 'Server error: ' + err
+      });
+      return res.send({
+        success: true,
+        message: 'List received',
+        guests
+      });
+    });
+  });
+
+  app.post('/api/manage/addToSingleRoomList', (req, res) => {
+    const { body } = req;
+    const { firstName, lastName } = body;
+
+    // find if guest is already in list
+    SingleRoomGuest.find({
+      firstName,
+      lastName,
+      isDeleted: false
+    }, (err, guests) => {
+      if (err) return res.send({
+        success: false,
+        message: 'Server error: ' + err
+      });
+      if (guests.length !== 0) return res.send({
+        success: false,
+        message: firstName + ' is already on the single room list'
+      });
+
+      // save name on list
+      const newGuest = new SingleRoomGuest();
+      newGuest.firstName = firstName;
+      newGuest.lastName = lastName;
+
+      newGuest.save((err, guest) => {
+        if (err) return res.send({
+          success: false,
+          message: 'Server error: ' + err
+        });
+        return res.send({
+          success: true,
+          message: firstName + ' is put on the list!',
+          guest: newGuest
+        });
+      });
+    });
+  });
+
+  app.get('/api/manage/removeFromSingleRoomList', (req, res) =>{
+    const { query } = req;
+    const { firstName, lastName } = query;
+    console.log(firstName, lastName);
+    SingleRoomGuest.updateOne({
+      firstName,
+      lastName,
+      isDeleted: false
+    }, {
+      $set: { isDeleted: true }
+    }, (err, doc) => {
+      if (err) return res.send({
+        success: false,
+        message: 'Server error: ' + err
+      });
+      return res.send({
+        success: true,
+        message: firstName + ' is removed from the list',
+        firstName
       });
     });
   });

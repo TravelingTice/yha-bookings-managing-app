@@ -7,16 +7,11 @@ import CheckOut from '../CheckOut';
 import LookUpPerson from '../LookUpPerson';
 import SingleRoomList from '../SingleRoomList';
 import TheBush from '../TheBush';
-
-import { updateRentDue } from '../../../utils/updateRentDue';
+import AddCommentToPerson from '../AddCommentToPerson';
 
 class ManageIndex extends Component {
   constructor(props) {
     super(props)
-  }
-
-  componentDidMount() {
-    updateRentDue();
   }
 
   render() {
@@ -28,6 +23,7 @@ class ManageIndex extends Component {
         <Route exact path='/check-out' component={CheckOut}/>
         <Route exact path='/the-bush' component={TheBush}/>
         <Route exact path='/look-up' component={LookUpPerson}/>
+        <Route exact path='/add-comment' component={AddCommentToPerson}/>
         <Route exact path='/single-room-list' component={SingleRoomList}/>
     </Switch>
     )

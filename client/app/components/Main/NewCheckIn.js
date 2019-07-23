@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getDate } from '../../utils/date';
 
 import Select from './SmallComps/Select';
 
@@ -72,6 +73,9 @@ class NewCheckIn extends Component {
             rentDue,
             comments
         } = this.state;
+
+        // get todays date object
+        const checkInDate = getDate();
         fetch('api/manage/checkinguest', {
             method: 'POST',
             headers: {
@@ -83,6 +87,7 @@ class NewCheckIn extends Component {
                 email,
                 phone,
                 roomType,
+                checkInDate,
                 rentDue: parseInt(rentDue),
                 comments
             })

@@ -48,6 +48,10 @@ class Header extends Component {
           className={active === '/look-up' ? 'active' : ''} 
           to="/look-up">Look Up</Link>
           <Link 
+          onClick={e => this.updatePage('/add-comment')}
+          className={active === '/add-comment' ? 'active' : ''} 
+          to="/add-comment">Add/Update comment</Link>
+          <Link 
           onClick={e => this.updatePage('/the-bush')}
           className={active === '/the-bush' ? 'active' : ''} 
           to="/the-bush">The Bush</Link>

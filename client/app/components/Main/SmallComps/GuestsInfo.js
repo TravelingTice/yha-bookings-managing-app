@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import sortBy from 'sort-by';
-import { getFromStorage } from '../../../utils/storage';
-import { updateRentDue } from '../../../utils/updateRentDue';
+import { getDate, daysBetween } from '../../../utils/date';
 
 class GuestsInfo extends Component {
     constructor(props) {
@@ -12,21 +11,88 @@ class GuestsInfo extends Component {
         }
     }
     componentDidMount() {
-        // fetch the guests from the db
-        fetch('api/manage/getguestlist')
-        .then(res => res.json())
-        .then(json => {
-            this.setState({
-                guests: json.guests
+      fetch('/api/manage/getguestlist')
+      .then(resp => resp.json())
+      .then(json => {
+        if (!json.success) {
+          this.setState({
+            msg: json.message
+          })
+        } else {
+          this.setState({
+            guests: json.guests
+          });
+        }
+      });
+      /* RENTDUE UPDATE
+      */
+      // get date of last login
+      fetch('/api/lastLogin')
+     .then(resp => resp.json())
+     .then(json => {
+        if (!json.success) {
+          this.setState({
+            msg: json.message
+          });
+        } else {
+          const lastLogin = json.login.date;
+          // get current date
+          const now = getDate();
+          // calculate how many days were in between last login and today
+          const daysInBetween = daysBetween(lastLogin, now);
+          // subtract this number from everybody's rentDue property, except for people in the bush
+          if (daysInBetween !== 0) {
+            fetch('/api/manage/updateRent', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                daysPassed: daysInBetween
+              })
+            })
+            .then(resp => resp.json())
+            .then(json => {
+              if (!json.success) {
+                this.setState({
+                  msg: json.message
+                })
+              } else {
+                const { guests } = this.state;
+                const newList = guests.map(guest => {
+                  const newGuest = guest;
+                  newGuest.rentDue = newGuest.rentDue - daysInBetween;
+                  return newGuest;
+                });
+                this.setState({
+                  guests: newList
+                });
+              }
             });
+        }
+        // put in the current date as the most recent login date
+        fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            date: now
+          })
+        })
+        .then(resp => resp.json())
+        .then(json => {
+          if (!json.success) {
+            this.setState({
+              msg: json.message
+            });
+          }
         });
+      }
+    });
     }
     render() {
       const { guests } = this.state;
-      const daysSinceLastLogin = getFromStorage('the_second_app').daysSinceLastLogin;
-      if (daysSinceLastLogin !== 0) {
-        updateRentDue();
-      }
       // sort guest array on rent due for display
       guests.sort(sortBy('rentDue'));
 
@@ -49,10 +115,19 @@ class GuestsInfo extends Component {
             </table>
             <br/>
             <p>These are in the bush:</p>
-            {guests.map(guest => (
+            {guests.map((guest, i) => (
               <>
               {guest.isInBush && (
-                <span>{guest.firstName + ' ' + guest.lastName + ', '}</span>
+                <>
+                <>
+                {i !== guests.length - 1 && (
+                  <span>{guest.firstName + ' ' + guest.lastName + ', '}</span>
+                )}
+                </>
+                {i === guests.length -1 && (
+                  <span>{guest.firstName + ' ' + guest.lastName}.</span>
+                )}
+                </>
               )}
               </>
             ))}

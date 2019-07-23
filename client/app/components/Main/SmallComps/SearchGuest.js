@@ -21,7 +21,11 @@ class SearchGuest extends Component {
     }    
 
     componentDidMount() {
-        fetch('api/manage/getguestlist')
+        let includeAll = false;
+        if (this.props.includeAll) {
+          includeAll = true;
+        }
+        fetch('api/manage/getguestlist?includeAll=' + includeAll)
         .then(res => res.json())
         .then(json => {
             if (!json.success) {

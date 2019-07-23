@@ -26,8 +26,8 @@ const GuestSchema = new mongoose.Schema({
     default: ''
   },
   checkInDate: {
-    type: String,
-    default: ''
+    type: Object,
+    default: { day: 0, month: 0, year: 0 }
   },
   comments: {
     type: String,
@@ -36,6 +36,10 @@ const GuestSchema = new mongoose.Schema({
   isInBush: {
     type: Boolean,
     default: false
+  },
+  checkOutDate: {
+    type: Object,
+    default: { day: 0, month: 0, year: 0 }
   },
   checkedOut: {
     type: Boolean,

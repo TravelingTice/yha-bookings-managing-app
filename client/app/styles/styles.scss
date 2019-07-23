@@ -6,6 +6,20 @@ body {
     text-align: center;
 }
 
+ol {
+  text-align: center;
+}
+
+ol li {
+  margin: 10px 60px;
+  border-bottom: 1px solid grey;
+}
+
+ol li span {
+  color: blue;
+  cursor: pointer;
+}
+
 .password-input {
     margin-top: calc(30vh - 20px);
 }
@@ -76,4 +90,14 @@ nav {
 
 .search-guest-list li:hover {
   background: #dce8ba;
+}
+
+.look-up-table {
+  text-align: left;
+}
+
+.look-up-table td {
+  border: 1px solid black;
+  margin: 0;
+  padding: 5px 10px;
 }
