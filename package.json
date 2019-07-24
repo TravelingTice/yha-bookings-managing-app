@@ -12,7 +12,7 @@
   "scripts": {
     "start": "webpack -p --progress --profile --colors && node server",
     "start:dev": "node server",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm start --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm start"
   },
   "engines": {
     "node": ">=6"
