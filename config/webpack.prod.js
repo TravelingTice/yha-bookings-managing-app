@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const UglifyJsPlugin = require('uglify-js');
 
 const helpers = require('./helpers');
 const commonConfig = require('./webpack.common');
@@ -13,15 +12,27 @@ module.exports = merge(commonConfig, {
     chunkFilename: '[id].[hash].chunk.js'
   },
 
-  plugins: [
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        warnings: false,
-        ie8: false,
-        output: {
-          comments: false
+  optimization: {
+    minimize: true,
+    runtimeChunk: true,
+    splitChunks: {
+        chunks: "async",
+        minSize: 1000,
+        minChunks: 2,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
+        name: true,
+        cacheGroups: {
+            default: {
+                minChunks: 1,
+                priority: -20,
+                reuseExistingChunk: true,
+            },
+            vendors: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: -10
+            }
         }
-      }
-    })
-  ]
+    }
+}
 });
