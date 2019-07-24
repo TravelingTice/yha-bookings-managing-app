@@ -97,7 +97,7 @@ class AddCommentToPerson extends Component {
       onChange={e => this.updateComment(e.target.value)}
       placeholder="Type comment here"></textarea>
       <button
-      onClick={e => this.onSubmit(e)}>Update comment</button>
+      onClick={e => this.onSubmitComment(e)}>Update comment</button>
       <input type="text" value={roomType} placeholder="Change room type" onChange={e => this.updateRoomType(e.target.value)}/>
       <button onClick={e => this.onSubmitRoomType(e)}>Update room type</button>
       {msg && (

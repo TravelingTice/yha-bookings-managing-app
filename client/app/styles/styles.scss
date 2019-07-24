@@ -2,22 +2,27 @@
 
 @import 'vendor/normalize';
 
+html {
+  margin: 0;
+  padding: 0;
+}
+
 body {
     text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 ol {
   text-align: center;
-}
-
-ol li {
-  margin: 10px 60px;
-  border-bottom: 1px solid grey;
-}
-
-ol li span {
-  color: blue;
-  cursor: pointer;
+  li {
+    margin: 10px 60px;
+    border-bottom: 1px solid #d4d4d4;
+    span {
+      color: #EA5252;
+      cursor: pointer;
+    }
+  }
 }
 
 .password-input {
@@ -28,30 +33,26 @@ ol li span {
     color: red;
 }
 
-header .active {
-    color: black;
+header {
+  .active {
+    color: #6C767C;
+  }
+  -webkit-box-shadow: 0px -10px 22px 9px rgba(0,0,0,0.3);
+-moz-box-shadow: 0px -10px 22px 9px rgba(0,0,0,0.3);
+box-shadow: 0px -10px 22px 9px rgba(0,0,0,0.3);
+  padding: 1px 0 4px;
+  margin-bottom: 40px;
+  margin-top: 0;
+
 }
 
 table {
   margin: 0 auto;
   text-align: left;
-}
-
-td {
-  padding: 3px 50px;
-}
-
-nav a {
-    display: block;
-    color: red;
-    text-decoration: none;
-    padding: 5px;
-    margin: 5px;
-    border: 1px solid black;
-}
-
-nav a:hover {
-    color: blue;
+  padding-top: 15px;
+  td {
+    padding: 3px 50px;
+  }
 }
 
 .nav-home-btn {
@@ -60,14 +61,29 @@ nav a:hover {
 
 nav {
     margin: 10px;
+    a {
+      display: block;
+      color: #303538;
+      text-decoration: none;
+      padding: 5px;
+      margin: 5px;
+      border: 1px solid #dedede;
+      border-radius: 5px;
+      background-color: #fafafa;
+    }
+    a:hover {
+      color: #4B5256;
+      background-color: #EFF5F7;
+    }
 }
 
 .sign-out-btn {
   position: absolute;
-  bottom: 25px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;
+  right: 0;
+  margin: 0;
   width: 100px;
+  border-radius: 0px;
 }
 
 .search-guest-list {
@@ -75,29 +91,62 @@ nav {
   width: 200px;
   margin: 0 calc(50vw - 90px);
   padding: 0;
-}
-
-.search-guest-list .active {
-  background: #bae8e8;
-}
-
-.search-guest-list li {
-  margin: 5px;
-  padding: 5px;
-  border: 1px solid black;
-  cursor: pointer;
-}
-
-.search-guest-list li:hover {
-  background: #dce8ba;
+  .active {
+    background: #D7F7E5;
+  }
+  li {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+  li:hover {
+    background: #D7E9F7;
+  }
 }
 
 .look-up-table {
   text-align: left;
+  td {
+    border: 1px solid black;
+    margin: 0;
+    padding: 5px 10px;
+  }
 }
 
-.look-up-table td {
-  border: 1px solid black;
-  margin: 0;
-  padding: 5px 10px;
+input, textarea {
+  background-color: #FFFDEA;
+  border: 1px solid #9B9FA0;
+  padding: 4px;
+  border-radius: 3px;
+  margin: 3px;
+}
+
+textarea {
+  height: 70px;
+}
+
+select {
+  background-color: #FFFDEA;
+  margin: 3px;
+}
+
+button {
+  background-color: #F7E3E8;
+  border: 1px solid #9B9FA0;
+  border-radius: 5px;
+  padding: 4px 10px;
+  margin: 4px;
+  transition: box-shadow 200ms ease-in-out;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: 5px 5px 12px -4px rgba(0,0,0,0.47);
+}
+
+button, textarea, input, select {
+  -webkit-box-shadow: 3px 3px 8px -4px rgba(0,0,0,0.47);
+-moz-box-shadow: 3px 3px 8px -4px rgba(0,0,0,0.47);
+box-shadow: 3px 3px 8px -4px rgba(0,0,0,0.47);
 }

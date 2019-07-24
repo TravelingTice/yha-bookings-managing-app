@@ -60,8 +60,6 @@ class Header extends Component {
           className={active === '/single-room-list' ? 'active' : ''} 
           to="/single-room-list">Single Room List</Link>
         </nav>
-    
-        <hr />
       </header>
       )
     }
