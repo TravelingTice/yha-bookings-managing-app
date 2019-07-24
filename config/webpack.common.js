@@ -17,7 +17,7 @@ module.exports = {
   },
 
   output: {
-    path: helpers.root('dist'),
+    path: helpers.root('build'),
     publicPath: '/'
   },
 
