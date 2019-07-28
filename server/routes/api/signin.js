@@ -57,6 +57,7 @@ module.exports = (app) => {
         success: false,
         message: 'Server error: ' + err
       });
+      console.log(users);
       if (users.length != 1) return res.send({
         success: false,
         message: 'Invalid'
@@ -128,6 +129,13 @@ module.exports = (app) => {
       return res.send({
         success: true,
         message: 'Logged out'
+      });
+    });
+  });
+  app.get('/api/account/test', (req, res) => {
+    User.find({}, (err, users) => {
+      return res.send({
+        guests
       });
     });
   });
