@@ -13,6 +13,10 @@ body {
     padding: 0;
 }
 
+.container {
+  min-height: 35vh;
+}
+
 ol {
   text-align: center;
   li {
@@ -78,12 +82,12 @@ nav {
 }
 
 .sign-out-btn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin: 0;
+  margin-top: 30px;
   width: 100px;
   border-radius: 0px;
+  display: block;
+  margin-left: calc(50vw - 50px);
+  margin-right: calc(50vw - 50px);
 }
 
 .search-guest-list {
@@ -150,3 +154,21 @@ button, textarea, input, select {
 -moz-box-shadow: 3px 3px 8px -4px rgba(0,0,0,0.47);
 box-shadow: 3px 3px 8px -4px rgba(0,0,0,0.47);
 }
+
+/* media queries */
+
+@media only screen and (min-width: 465px) {
+  header nav {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 170px;
+    
+    a {
+      width: 40%;
+      margin-left: 3%;
+      margin-right: 3%;
+    }
+  }
+}
+

@@ -187,8 +187,6 @@ module.exports = (app) => {
     const { body } = req;
     const { firstName, lastName, comments } = body;
 
-    console.log(firstName, lastName, comments);
-
     Guest.updateOne({
       firstName,
       lastName
@@ -209,8 +207,6 @@ module.exports = (app) => {
   app.post('/api/manage/updateRoomType', (req, res) => {
     const { body } = req;
     const { firstName, lastName, roomType } = body;
-
-    console.log(firstName, lastName, roomType);
 
     Guest.updateOne({
       firstName,
@@ -341,7 +337,6 @@ module.exports = (app) => {
   app.get('/api/manage/removeFromSingleRoomList', (req, res) =>{
     const { query } = req;
     const { firstName, lastName } = query;
-    console.log(firstName, lastName);
     SingleRoomGuest.updateOne({
       firstName,
       lastName,
