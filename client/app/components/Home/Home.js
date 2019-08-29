@@ -121,7 +121,7 @@ class Home extends Component {
       return (
         <>
         <Header/>
-        <div className="container">
+        <div>
         <ManageIndex/>
         </div>
         <button className="sign-out-btn" onClick={e => this.signOut(e)}>Sign Out</button>

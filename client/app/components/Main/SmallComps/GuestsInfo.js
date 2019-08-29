@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import sortBy from 'sort-by';
 import { getDate, daysBetween } from '../../../utils/date';
+import PostItNote from './PostItNote';
 
 class GuestsInfo extends Component {
     constructor(props) {
@@ -95,43 +96,37 @@ class GuestsInfo extends Component {
       const { guests } = this.state;
       // sort guest array on rent due for display
       guests.sort(sortBy('rentDue'));
-
+      // split guests up in not due yet, due, and overdue.
+      const overDueGuests = guests.filter(guest => guest.rentDue < 0);
+      const dueTodayGuests = guests.filter(guest => guest.rentDue === 0);
+      const otherGuests = guests.filter(guest => guest.rentDue > 0);
+      const bushGuests = guests.filter(guest => guest.isInBush === true);
         return (
-          <>
-            <p>These people have their rent due: </p>
-            <table>
-              <tbody>
-              {guests.map(guest => (
-                <>
-                {!guest.isInBush && (
-                  <tr>
-                  <td>{guest.firstName + ' ' + guest.lastName}</td>
-                  <td>{guest.rentDue === 0 ? 'TODAY!' : guest.rentDue === 1 ? 'Tomorrow!' : 'In ' + guest.rentDue + ' days'}</td>
-                </tr>
-                )}
-                </>
-              ))}
-              </tbody>
-            </table>
-            <br/>
-            <p>These are in the bush:</p>
-            {guests.map((guest, i) => (
-              <>
-              {guest.isInBush && (
-                <>
-                <>
-                {i !== guests.length - 1 && (
-                  <span>{guest.firstName + ' ' + guest.lastName + ', '}</span>
-                )}
-                </>
-                {i === guests.length -1 && (
-                  <span>{guest.firstName + ' ' + guest.lastName}.</span>
-                )}
-                </>
-              )}
-              </>
+          <div className="container">
+
+          <div className="row align-items-center">
+          <PostItNote
+          class="due-today"
+          guests={dueTodayGuests}
+          text="These people are due today: "/>
+          <PostItNote
+          class="overdue"
+          guests={overDueGuests}
+          text="These people are overdue: "/>
+          <div className="col-sm in-the-bush">
+          <p>These are in the bush:</p>
+            <ul>
+            {bushGuests.map((guest) => (
+              <li>{guest.firstName} {guest.lastName}</li>
             ))}
-            </>
+            </ul>
+          </div>
+          <PostItNote
+          class="not-due-yet"
+          guests={otherGuests}
+          text="These aren't due yet: "/>
+            </div>
+          </div>
         )
     }
 }
