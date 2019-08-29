@@ -33,6 +33,10 @@ const GuestSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  commentIsImportant: {
+    type: Boolean,
+    default: false
+  },
   isInBush: {
     type: Boolean,
     default: false

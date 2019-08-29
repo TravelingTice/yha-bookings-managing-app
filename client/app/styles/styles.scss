@@ -121,6 +121,21 @@ div.col-sm {
   transform: translateY(50px);
 }
 
+.comment-person {
+  cursor: pointer;
+  .sub-comment {
+    color: blue;
+  }
+}
+
+.important-comment {
+  border: 3px dashed red;
+}
+
+.comment-person:hover {
+  background: rgba(0,0,0,0.1);
+}
+
 .search-guest-list {
   list-style: none;
   width: 200px;

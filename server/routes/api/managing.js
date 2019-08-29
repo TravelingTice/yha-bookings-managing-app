@@ -16,7 +16,8 @@ module.exports = (app) => {
       rentDue,
       roomType,
       checkInDate,
-      comments
+      comments,
+      commentIsImportant
     } = body;
 
     // check if required fields are empty
@@ -71,6 +72,7 @@ module.exports = (app) => {
       newGuest.rentDue = rentDue; // required
       newGuest.checkInDate = checkInDate ? checkInDate : today; // optional (default is today)
       newGuest.comments = comments ? comments : '';
+      newGuest.commentIsImportant = commentIsImportant ? true : false;
       newGuest.save((err, guest) => {
         if (err) return res.send({
           success: false,
@@ -185,13 +187,16 @@ module.exports = (app) => {
 
   app.post('/api/manage/updateComment', (req, res) => {
     const { body } = req;
-    const { firstName, lastName, comments } = body;
+    const { firstName, lastName, comments, commentIsImportant } = body;
 
     Guest.updateOne({
       firstName,
       lastName
     }, {
-      $set: { comments }
+      $set: {
+        comments,
+        commentIsImportant
+      }
     }, (err, doc) => {
       if (err) return res.send({
         success: false,

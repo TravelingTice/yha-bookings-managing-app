@@ -106,11 +106,11 @@ class GuestsInfo extends Component {
 
           <div className="row align-items-center">
           <PostItNote
-          class="due-today"
+          className="due-today"
           guests={dueTodayGuests}
           text="These people are due today: "/>
           <PostItNote
-          class="overdue"
+          className="overdue"
           guests={overDueGuests}
           text="These people are overdue: "/>
           <div className="col-sm in-the-bush">
@@ -122,7 +122,7 @@ class GuestsInfo extends Component {
             </ul>
           </div>
           <PostItNote
-          class="not-due-yet"
+          className="not-due-yet"
           guests={otherGuests}
           text="These aren't due yet: "/>
             </div>

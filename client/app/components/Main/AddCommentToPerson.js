@@ -9,11 +9,13 @@ class AddCommentToPerson extends Component {
       selectedGuest: {},
       msg: '',
       comments: '',
+      commentIsImportant: false,
       roomType: ''
     }
 
     this.onSelect = this.onSelect.bind(this);
     this.updateComment = this.updateComment.bind(this);
+    this.toggleCommentIsImportant = this.toggleCommentIsImportant.bind(this);
     this.updateRoomType = this.updateRoomType.bind(this);
   }
   
@@ -21,6 +23,12 @@ class AddCommentToPerson extends Component {
     this.setState({
       comments
     });
+  }
+
+  toggleCommentIsImportant() {
+    this.setState(prevState => ({
+      commentIsImportant: !prevState.commentIsImportant
+    }));
   }
 
   updateRoomType(roomType) {
@@ -33,14 +41,15 @@ class AddCommentToPerson extends Component {
     this.setState({
       selectedGuest,
       comments: selectedGuest.comments,
-      roomType: selectedGuest.roomType
+      roomType: selectedGuest.roomType,
+      commentIsImportant: selectedGuest.commentIsImportant ? selectedGuest.commentIsImportant : false
     });
   }
 
   onSubmitComment(e) {
     e.preventDefault();
 
-    const { selectedGuest, comments } = this.state;
+    const { selectedGuest, comments, commentIsImportant } = this.state;
 
     fetch('api/manage/updateComment', {
       method: 'POST',
@@ -50,7 +59,8 @@ class AddCommentToPerson extends Component {
       body: JSON.stringify({
         firstName: selectedGuest.firstName,
         lastName: selectedGuest.lastName,
-        comments
+        comments,
+        commentIsImportant
       })
     })
     .then(resp => resp.json())
@@ -86,7 +96,7 @@ class AddCommentToPerson extends Component {
   }
 
   render() {
-    const { selectedGuest, comments, msg, roomType } = this.state;
+    const { selectedGuest, comments, commentIsImportant, msg, roomType } = this.state;
     return (
       <>
       <SearchGuest
@@ -96,6 +106,14 @@ class AddCommentToPerson extends Component {
       value={comments}
       onChange={e => this.updateComment(e.target.value)}
       placeholder="Type comment here"></textarea>
+      <div className="checkbox">
+      <input
+      checked={commentIsImportant}
+      onChange={this.toggleCommentIsImportant}
+      type="checkbox"
+      id="toggle2"/>
+      <label htmlFor="toggle2">Comment is important</label>
+      </div>
       <button
       onClick={e => this.onSubmitComment(e)}>Update comment</button>
       <input type="text" value={roomType} placeholder="Change room type" onChange={e => this.updateRoomType(e.target.value)}/>

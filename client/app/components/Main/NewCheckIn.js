@@ -15,7 +15,8 @@ class NewCheckIn extends Component {
             phone: '',
             roomType: '',
             rentDue: '1',
-            comments: ''
+            comments: '',
+            commentIsImportant: false
         }
 
         this.updateFirstName = this.updateFirstName.bind(this);
@@ -25,6 +26,7 @@ class NewCheckIn extends Component {
         this.updateRoomType = this.updateRoomType.bind(this);
         this.updateRentDue = this.updateRentDue.bind(this);
         this.updateComments = this.updateComments.bind(this);
+        this.toggleCommentIsImportant = this.toggleCommentIsImportant.bind(this);
     }
 
     updateFirstName(firstName) {
@@ -62,6 +64,11 @@ class NewCheckIn extends Component {
             comments
         });
     }
+    toggleCommentIsImportant() {
+      this.setState(prevState => ({
+        commentIsImportant: !prevState.commentIsImportant
+      }));
+    }
     submit(e) {
         e.preventDefault();
         const {
@@ -71,7 +78,8 @@ class NewCheckIn extends Component {
             phone,
             roomType,
             rentDue,
-            comments
+            comments,
+            commentIsImportant
         } = this.state;
 
         // get todays date object
@@ -89,7 +97,8 @@ class NewCheckIn extends Component {
                 roomType,
                 checkInDate,
                 rentDue: parseInt(rentDue),
-                comments
+                comments,
+                commentIsImportant
             })
         })
         .then(res => res.json())
@@ -107,6 +116,7 @@ class NewCheckIn extends Component {
                     roomType: '',
                     rentDue: '',
                     comments: '',
+                    commentIsImportant: false,
                     errMsg: json.message
                 });
             }
@@ -121,6 +131,7 @@ class NewCheckIn extends Component {
             roomType,
             rentDue,
             comments,
+            commentIsImportant,
             errMsg
         } = this.state;
         return (
@@ -168,6 +179,16 @@ class NewCheckIn extends Component {
                 <textarea 
                 value={comments} placeholder="Comments"
                 onChange={e => this.updateComments(e.target.value)}></textarea>
+                <br/>
+                <div className="checkbox checkbox-warning">
+                <label>
+                <input
+                type="checkbox"
+                onChange={this.toggleCommentIsImportant}
+                defaultChecked={commentIsImportant}/>
+                Comment is important
+                </label>
+                </div> 
                 <br/>
                 <button onClick={e => this.submit(e)}>Submit</button>
             </form>
