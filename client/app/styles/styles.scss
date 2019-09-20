@@ -121,7 +121,7 @@ div.col-sm {
   transform: translateY(50px);
 }
 
-.comment-person {
+.comment-person, .due-time {
   cursor: pointer;
   .sub-comment {
     color: blue;
@@ -132,8 +132,12 @@ div.col-sm {
   border: 3px dashed red;
 }
 
-.comment-person:hover {
+.comment-person:hover, .due-time:hover {
   background: rgba(0,0,0,0.1);
+}
+
+.btn-add {
+  padding: 4px 17px;
 }
 
 .search-guest-list {
